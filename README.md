@@ -15,3 +15,9 @@ airbnb style-guide
 Run lint only in the files that are in the stage.
 
 ## Reminders
+
+Join commits -> git commit --amend --no-edit
+
+Test other commit -> git checkout "hash"
+
+Revert -> git revert "hash"

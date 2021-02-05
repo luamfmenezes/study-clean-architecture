@@ -26,6 +26,6 @@
   },
   "scripts": {
     "test": "jest",
-    "test:staged": "jest"
+    "test:staged": "jest --passWithNoTests"
   }
 }
