@@ -1,6 +1,5 @@
-import MissingParamError from '../errors/missing-param-error';
-import InvalidParamError from '../errors/invalid-param-error';
-import EmailValidator from './protocols/EmailValidator';
+import { InvalidParamError, MissingParamError } from '../errors';
+import { EmailValidator } from './protocols';
 import SignUpController from './SignUp';
 
 interface SutTypes {
@@ -8,18 +7,25 @@ interface SutTypes {
   emailValidatorStub: EmailValidator;
 }
 
-// Factory
-const makeSut = (): SutTypes => {
+/*
+ Improviment: create a factory outside of the text
+ Or create a fakeEmailValidator
+ --
+ Factories
+*/
+
+const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
-    isValid = (email: string): boolean => {
+    isValid = (): boolean => {
       return true;
     };
   }
+  return new EmailValidatorStub();
+};
 
-  const emailValidatorStub = new EmailValidatorStub();
-
+const makeSut = (): SutTypes => {
+  const emailValidatorStub = makeEmailValidator();
   const sut = new SignUpController(emailValidatorStub);
-
   return {
     sut,
     emailValidatorStub,
@@ -94,6 +100,7 @@ describe('SignUp Controller', () => {
   it('should return 400 if invalid email is provided', () => {
     const { sut, emailValidatorStub } = makeSut();
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false);
+
     const httpRequest = {
       body: {
         email: 'invalid@email.com',
@@ -107,5 +114,47 @@ describe('SignUp Controller', () => {
 
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new InvalidParamError('email'));
+  });
+
+  it('should return 500 if invalid email throws Error', () => {
+    const emailValidatorStub = makeEmailValidator();
+
+    // Tip: it's possible do this usign jest.spy().mockImplementation
+    emailValidatorStub.isValid = () => {
+      throw new Error();
+    };
+
+    const sut = new SignUpController(emailValidatorStub);
+
+    const httpRequest = {
+      body: {
+        email: 'invalid@email.com',
+        name: 'jhondoe',
+        password: 'password',
+        passwordConfirmation: 'password',
+      },
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+
+    expect(httpResponse.statusCode).toBe(500);
+  });
+
+  it('should call EmailValidator with correct email', () => {
+    const { sut, emailValidatorStub } = makeSut();
+    const spyIsValid = jest.spyOn(emailValidatorStub, 'isValid');
+
+    const httpRequest = {
+      body: {
+        email: 'jhondoe@email.com',
+        name: 'jhondoe',
+        password: 'password',
+        passwordConfirmation: 'password',
+      },
+    };
+
+    sut.handle(httpRequest);
+
+    expect(spyIsValid).toBeCalledWith('jhondoe@email.com');
   });
 });

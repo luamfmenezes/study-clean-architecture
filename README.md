@@ -21,3 +21,17 @@ Join commits -> git commit --amend --no-edit
 Test other commit -> git checkout "hash"
 
 Revert -> git revert "hash"
+
+## Stub
+
+Type of mock wheren you return a static value from the mock.
+
+## Improviments
+
+search by "Improviment:" in the code
+
+1. Create fakers - ex: EmailValidatorFake
+
+## Tips
+
+search by "Tip:" in the code
