@@ -1,3 +1,4 @@
+import { AddAccount } from '../../domain/usecases/add-account';
 import { InvalidParamError, MissingParamError } from '../errors';
 import { badRequest, serverError } from '../helpers/http-helper';
 import {
@@ -10,18 +11,17 @@ import {
 export default class SignUpController implements Controller {
   private readonly emailValidator: EmailValidator;
 
-  constructor(emailValidator: EmailValidator) {
+  // Tip: two ways of catch the dependece injection
+  constructor(
+    emailValidator: EmailValidator,
+    private readonly addAccount: AddAccount,
+  ) {
     this.emailValidator = emailValidator;
   }
 
   public handle = (httpRequest: HttpRequest): HttpResponse => {
     try {
-      if (!httpRequest.body.name) {
-        return badRequest(new MissingParamError('name'));
-      }
-      if (!httpRequest.body.email) {
-        return badRequest(new MissingParamError('email'));
-      }
+      const { email, name, password, passwordConfirmation } = httpRequest.body;
 
       const requireFields = [
         'name',
@@ -36,14 +36,25 @@ export default class SignUpController implements Controller {
         }
       }
 
-      const emailIsValid = this.emailValidator.isValid(httpRequest.body.email);
+      if (password !== passwordConfirmation) {
+        return badRequest(new InvalidParamError('passwordConfirmation'));
+      }
+
+      const emailIsValid = this.emailValidator.isValid(email);
 
       if (!emailIsValid) {
         return badRequest(new InvalidParamError('email'));
       }
 
+      const account = this.addAccount.add({
+        email,
+        name,
+        password,
+      });
+
       return {
         statusCode: 200,
+        body: account,
       };
     } catch {
       return serverError();

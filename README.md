@@ -31,6 +31,7 @@ Type of mock wheren you return a static value from the mock.
 search by "Improviment:" in the code
 
 1. Create fakers - ex: EmailValidatorFake
+2. Separate factories classes on SignUp.spec.ts
 
 ## Tips
 

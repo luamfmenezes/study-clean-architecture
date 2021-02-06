@@ -19,6 +19,7 @@
     "prettier/prettier": "error",
     "import/prefer-default-export": "off",
     "no-restricted-syntax": 0,
+    "max-classes-per-file": ["error", 10],
     "import/extensions": [
       "error",
       "ignorePackages",
