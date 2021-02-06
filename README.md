@@ -22,6 +22,12 @@ Test other commit -> git checkout "hash"
 
 Revert -> git revert "hash"
 
+git stash ->
+
+## Sut
+
+System under test.
+
 ## Stub -
 
 Stubs are used inside unit tests to represent the class that has been tested.
@@ -33,6 +39,8 @@ search by "Improviment:" in the code
 
 1. Create fakers - ex: EmailValidatorFake
 2. Separate factories classes on SignUp.spec.ts
+3. Refactory mongo helper - class .17
+4. change account-repository/account.spec.ts -> .test.ts
 
 ## Tips
 
@@ -51,6 +59,8 @@ only show expected and returned
 
 --runInBand
 run tests sequencial
+
+use @shelf/jest-mongodb
 
 pattern:
 .spec.ts -> unit
