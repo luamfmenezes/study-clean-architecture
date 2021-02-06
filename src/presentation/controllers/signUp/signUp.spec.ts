@@ -7,7 +7,7 @@ import {
 } from './signUp-protocols';
 import SignUpController from './SignUp';
 
-interface SutTypes {
+interface SubTypes {
   sut: SignUpController;
   emailValidatorStub: EmailValidator;
   addAccountStub: AddAccount;
@@ -43,7 +43,7 @@ const makeAddAccount = (): AddAccount => {
   return new AddAccountStub();
 };
 
-const makeSut = (): SutTypes => {
+const makeSut = (): SubTypes => {
   const emailValidatorStub = makeEmailValidator();
   const addAccountStub = makeAddAccount();
   const sut = new SignUpController(emailValidatorStub, addAccountStub);

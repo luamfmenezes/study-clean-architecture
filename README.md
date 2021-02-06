@@ -36,3 +36,21 @@ search by "Improviment:" in the code
 ## Tips
 
 search by "Tip:" in the code
+
+## Jest
+
+jest --passWithNoTests --silent --noStackTrace
+
+--silent:
+dont show the console.logs.
+dont show information about the tests that are running, only the results.
+
+--noTrackTrace
+only show expected and returned
+
+--runInBand
+run tests sequencial
+
+pattern:
+.spec.ts -> unit
+.test.ts -> integration

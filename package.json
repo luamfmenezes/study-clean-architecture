@@ -25,7 +25,11 @@
     "typescript": "^4.1.3"
   },
   "scripts": {
-    "test": "jest",
-    "test:staged": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests --silent --noStackTrace",
+    "test:verbose": "jest --passWithNoTests",
+    "test:staged": "jest --passWithNoTests --findRelatedTests",
+    "test:unit": "jest --passWithNoTests --silent --noStackTrace --watch -c jest-unit-config.js",
+    "test:integration": "jest --passWithNoTests --silent --noStackTrace --watch -c jest-integration-config.js",
+    "test:ci": "jest --passWithNoTests --silent --noStackTrace --coverage"
   }
 }
