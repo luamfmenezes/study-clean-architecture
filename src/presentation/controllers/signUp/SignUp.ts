@@ -6,7 +6,6 @@ import {
   HttpRequest,
   HttpResponse,
   AddAccount,
-  AccountModel,
 } from './signUp-protocols';
 
 export default class SignUpController implements Controller {

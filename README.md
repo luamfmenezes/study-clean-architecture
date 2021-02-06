@@ -22,8 +22,9 @@ Test other commit -> git checkout "hash"
 
 Revert -> git revert "hash"
 
-## Stub
+## Stub -
 
+Stubs are used inside unit tests to represent the class that has been tested.
 Type of mock wheren you return a static value from the mock.
 
 ## Improviments
