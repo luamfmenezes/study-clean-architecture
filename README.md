@@ -41,6 +41,8 @@ search by "Improviment:" in the code
 2. Separate factories classes on SignUp.spec.ts
 3. Refactory mongo helper - class .17
 4. change account-repository/account.spec.ts -> .test.ts
+5. import routes
+6. Factories on main/factories are creating one instance any time that is used (we can have emails been configurated again each).
 
 ## Tips
 
@@ -65,3 +67,5 @@ use @shelf/jest-mongodb
 pattern:
 .spec.ts -> unit
 .test.ts -> integration
+
+supertest

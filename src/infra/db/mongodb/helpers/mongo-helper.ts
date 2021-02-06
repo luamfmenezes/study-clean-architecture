@@ -3,11 +3,14 @@ import { Collection, MongoClient } from 'mongodb';
 class MongoHelper {
   client: MongoClient;
 
-  connect = async (uri: string): Promise<void> => {
-    this.client = await MongoClient.connect(process.env.MONGO_URL || '', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+  connect = async (uri: string | undefined): Promise<void> => {
+    this.client = await MongoClient.connect(
+      uri || process.env.MONGO_URL || '',
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
+    );
   };
 
   disconnect = async () => {
