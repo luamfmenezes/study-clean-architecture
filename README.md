@@ -43,6 +43,7 @@ search by "Improviment:" in the code
 4. change account-repository/account.spec.ts -> .test.ts
 5. import routes
 6. Factories on main/factories are creating one instance any time that is used (we can have emails been configurated again each).
+7. Refactory test using Http-hellpers
 
 ## Tips
 

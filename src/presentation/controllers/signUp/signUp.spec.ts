@@ -16,8 +16,6 @@ interface SubTypes {
 /*
  Improviment: create a factory outside of the text
  Or create a fakeEmailValidator
- --
- Factories
 */
 
 const makeEmailValidator = (): EmailValidator => {
