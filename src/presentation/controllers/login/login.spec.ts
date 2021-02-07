@@ -1,10 +1,5 @@
-import { HttpRequest, EmailValidator, Authentication } from './login-protocols';
+import { HttpRequest, Authentication, Validation } from './login-protocols';
 import { LoginController } from './login';
-import {
-  InvalidParamError,
-  MissingParamError,
-  ServerError,
-} from '../../errors';
 import {
   badRequest,
   ok,
@@ -14,15 +9,15 @@ import {
 
 interface SutTypes {
   sut: LoginController;
-  emailValidatorStub: EmailValidator;
+  validationStub: Validation;
   authenticationStub: Authentication;
 }
 
-const makeEmailValidatorStub = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator {
-    isValid = (): boolean => true;
+const makeValidationStub = (): Validation => {
+  class ValidationStub implements Validation {
+    validate = (): Error | undefined => undefined;
   }
-  return new EmailValidatorStub();
+  return new ValidationStub();
 };
 
 const makeAuthenticationStub = (): Authentication => {
@@ -34,9 +29,9 @@ const makeAuthenticationStub = (): Authentication => {
 
 const makeSut = (): SutTypes => {
   const authenticationStub = makeAuthenticationStub();
-  const emailValidatorStub = makeEmailValidatorStub();
-  const sut = new LoginController(emailValidatorStub, authenticationStub);
-  return { sut, emailValidatorStub, authenticationStub };
+  const validationStub = makeValidationStub();
+  const sut = new LoginController(validationStub, authenticationStub);
+  return { sut, validationStub, authenticationStub };
 };
 
 const makeFakeHttpRequest = (): HttpRequest => ({
@@ -47,66 +42,28 @@ const makeFakeHttpRequest = (): HttpRequest => ({
 });
 
 describe('Login Controller', () => {
-  test('Should return 400 if no email is provided', async () => {
-    const { sut } = makeSut();
-    const httpRequest = {
-      body: {
-        password: 'password',
-      },
-    };
-    const httpResponse = await sut.handle(httpRequest);
+  it('should call validation with correct value', async () => {
+    const { sut, validationStub } = makeSut();
 
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('email')));
-  });
-
-  test('Should return 400 if no password is provided', async () => {
-    const { sut } = makeSut();
-    const httpRequest = {
-      body: {
-        email: 'jhondoe@email.com',
-      },
-    };
-    const httpResponse = await sut.handle(httpRequest);
-
-    expect(httpResponse).toEqual(badRequest(new MissingParamError('password')));
-  });
-
-  test('Should call emailValidator with the correct email', async () => {
-    const { sut, emailValidatorStub } = makeSut();
-
-    const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid');
+    const validateSpy = jest.spyOn(validationStub, 'validate');
 
     const httpRequest = makeFakeHttpRequest();
 
-    await sut.handle(httpRequest);
+    sut.handle(httpRequest);
 
-    expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.email);
+    expect(validateSpy).toBeCalledWith(httpRequest.body);
   });
 
-  test('Should return 400 if email provided is not valid', async () => {
-    const { sut, emailValidatorStub } = makeSut();
+  it('should return 400 if Validation return an error', async () => {
+    const { sut, validationStub } = makeSut();
 
-    jest.spyOn(emailValidatorStub, 'isValid').mockReturnValue(false);
+    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error());
 
     const httpRequest = makeFakeHttpRequest();
 
     const httpResponse = await sut.handle(httpRequest);
 
-    expect(httpResponse).toEqual(badRequest(new InvalidParamError('email')));
-  });
-
-  test('Should return 500 if emailValidator throws', async () => {
-    const { sut, emailValidatorStub } = makeSut();
-
-    jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw new Error();
-    });
-
-    const httpRequest = makeFakeHttpRequest();
-
-    const httpResponse = await sut.handle(httpRequest);
-
-    expect(httpResponse).toEqual(serverError(new Error()));
+    expect(httpResponse).toEqual(badRequest(new Error()));
   });
 
   test('Should call Authentication with correct values', async () => {
