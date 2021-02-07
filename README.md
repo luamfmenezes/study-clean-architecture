@@ -24,6 +24,8 @@ Revert -> git revert "hash"
 
 git stash ->
 
+git tag -> class: 26
+
 ## Sut
 
 System under test.
@@ -44,6 +46,7 @@ search by "Improviment:" in the code
 5. import routes
 6. Factories on main/factories are creating one instance any time that is used (we can have emails been configurated again each).
 7. Refactory test using Http-hellpers
+8. Return user from authentication, inside login controller.
 
 ## Tips
 

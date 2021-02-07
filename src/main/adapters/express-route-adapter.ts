@@ -11,6 +11,10 @@ export const adatperRoute = (controller: Controller) => {
 
     const { statusCode, body } = httpResponse;
 
-    res.status(statusCode).json(body);
+    if (statusCode === 200) {
+      res.status(statusCode).json(body);
+    } else {
+      res.status(statusCode).json({ error: body.message });
+    }
   };
 };
