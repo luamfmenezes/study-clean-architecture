@@ -1,8 +1,6 @@
-import { InvalidParamError, MissingParamError } from '../../errors';
-import { badRequest, serverError, ok } from '../../helpers/http-helper';
+import { badRequest, serverError, ok } from '../../helpers/http/http-helper';
 import {
   Controller,
-  EmailValidator,
   HttpRequest,
   HttpResponse,
   AddAccount,
@@ -22,23 +20,13 @@ export default class SignUpController implements Controller {
 
   public handle = async (httpRequest: HttpRequest): Promise<HttpResponse> => {
     try {
-      const { email, name, password, passwordConfirmation } = httpRequest.body;
+      const { email, name, password } = httpRequest.body;
 
       const validationError = this.validation.validate(httpRequest.body);
 
       if (validationError) {
         return badRequest(validationError);
       }
-
-      // if (password !== passwordConfirmation) {
-      //   return badRequest(new InvalidParamError('passwordConfirmation'));
-      // }
-
-      // const emailIsValid = this.emailValidator.isValid(email);
-
-      // if (!emailIsValid) {
-      //   return badRequest(new InvalidParamError('email'));
-      // }
 
       const account = await this.addAccount.add({
         email,

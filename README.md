@@ -53,6 +53,8 @@ search by "Improviment:" in the code
 
 search by "Tip:" in the code
 
+save all when move a dependence.
+
 ## Jest
 
 jest --passWithNoTests --silent --noStackTrace

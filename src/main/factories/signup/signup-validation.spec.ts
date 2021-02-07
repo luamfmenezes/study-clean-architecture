@@ -1,6 +1,8 @@
-import { CompareFieldsValidation } from '../../../presentation/helpers/validators/compare-fields-validation';
-import { EmailValidation } from '../../../presentation/helpers/validators/email-validation';
-import { RequiredFieldValidation } from '../../../presentation/helpers/validators/required-field-validation';
+import {
+  CompareFieldsValidation,
+  EmailValidation,
+  RequiredFieldValidation,
+} from '../../../presentation/helpers/validators';
 import { EmailValidator } from '../../../presentation/protocols/emailValidator';
 import { EmailValidatorAdapter } from '../../../utils/email-validator-adapter';
 import { makeSignUpValidation } from './signup-validation';

@@ -1,6 +1,6 @@
 import { Controller, HttpResponse } from '../../presentation/protocols';
 import { LogControllerDecorator } from './log-controller';
-import { serverError } from '../../presentation/helpers/http-helper';
+import { serverError } from '../../presentation/helpers/http/http-helper';
 import { LogRepository } from '../../data/protocols/log-error-repository';
 
 const makeLogRepositoryStub = (): LogRepository => {

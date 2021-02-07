@@ -1,4 +1,3 @@
-import { InvalidParamError, MissingParamError } from '../../errors';
 import {
   EmailValidator,
   AddAccount,
@@ -7,7 +6,7 @@ import {
   Validation,
 } from './signUp-protocols';
 import SignUpController from './SignUp';
-import { badRequest, serverError } from '../../helpers/http-helper';
+import { badRequest, serverError } from '../../helpers/http/http-helper';
 import { HttpRequest } from '../../protocols';
 
 interface SubTypes {
