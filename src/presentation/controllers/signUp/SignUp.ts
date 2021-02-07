@@ -6,34 +6,35 @@ import {
   HttpRequest,
   HttpResponse,
   AddAccount,
+  Validation,
 } from './signUp-protocols';
 
 export default class SignUpController implements Controller {
   private readonly emailValidator: EmailValidator;
 
+  private readonly addAccount: AddAccount;
+
+  private readonly validation: Validation;
+
   // Tip: two ways of catch the dependece injection
   constructor(
     emailValidator: EmailValidator,
-    private readonly addAccount: AddAccount,
+    addAccount: AddAccount,
+    validation: Validation,
   ) {
     this.emailValidator = emailValidator;
+    this.addAccount = addAccount;
+    this.validation = validation;
   }
 
   public handle = async (httpRequest: HttpRequest): Promise<HttpResponse> => {
     try {
       const { email, name, password, passwordConfirmation } = httpRequest.body;
 
-      const requireFields = [
-        'name',
-        'email',
-        'password',
-        'passwordConfirmation',
-      ];
+      const validationError = this.validation.validate(httpRequest.body);
 
-      for (const field of requireFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissingParamError(field));
-        }
+      if (validationError) {
+        return badRequest(validationError);
       }
 
       if (password !== passwordConfirmation) {
