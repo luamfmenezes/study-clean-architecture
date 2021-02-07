@@ -10,19 +10,12 @@ import {
 } from './signUp-protocols';
 
 export default class SignUpController implements Controller {
-  private readonly emailValidator: EmailValidator;
-
   private readonly addAccount: AddAccount;
 
   private readonly validation: Validation;
 
   // Tip: two ways of catch the dependece injection
-  constructor(
-    emailValidator: EmailValidator,
-    addAccount: AddAccount,
-    validation: Validation,
-  ) {
-    this.emailValidator = emailValidator;
+  constructor(addAccount: AddAccount, validation: Validation) {
     this.addAccount = addAccount;
     this.validation = validation;
   }
@@ -37,15 +30,15 @@ export default class SignUpController implements Controller {
         return badRequest(validationError);
       }
 
-      if (password !== passwordConfirmation) {
-        return badRequest(new InvalidParamError('passwordConfirmation'));
-      }
+      // if (password !== passwordConfirmation) {
+      //   return badRequest(new InvalidParamError('passwordConfirmation'));
+      // }
 
-      const emailIsValid = this.emailValidator.isValid(email);
+      // const emailIsValid = this.emailValidator.isValid(email);
 
-      if (!emailIsValid) {
-        return badRequest(new InvalidParamError('email'));
-      }
+      // if (!emailIsValid) {
+      //   return badRequest(new InvalidParamError('email'));
+      // }
 
       const account = await this.addAccount.add({
         email,

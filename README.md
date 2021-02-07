@@ -47,6 +47,7 @@ search by "Improviment:" in the code
 6. Factories on main/factories are creating one instance any time that is used (we can have emails been configurated again each).
 7. Refactory test using Http-hellpers
 8. Return user from authentication, inside login controller.
+9. Refactory makeValidation factory ./src/main/fatories
 
 ## Tips
 
@@ -73,3 +74,9 @@ pattern:
 .test.ts -> integration
 
 supertest
+
+## Patterns
+
+1. Factory
+2. Decorator
+3. Composite
