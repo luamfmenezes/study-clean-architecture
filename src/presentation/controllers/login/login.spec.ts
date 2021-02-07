@@ -77,7 +77,7 @@ describe('Login Controller', () => {
 
     const { email, password } = httpRequest.body;
 
-    expect(authSpy).toHaveBeenCalledWith(email, password);
+    expect(authSpy).toHaveBeenCalledWith({ email, password });
   });
 
   test('Should retrun 401 if invalid credentials are provided', async () => {
