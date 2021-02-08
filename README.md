@@ -48,6 +48,7 @@ search by "Improviment:" in the code
 7. Refactory test using Http-hellpers
 8. Return user from authentication, inside login controller.
 9. Refactory makeValidation factory ./src/main/fatories
+10. Organize data/protocols in folders.
 
 ## Tips
 
