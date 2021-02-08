@@ -1,5 +1,6 @@
 import { HashCompare } from '../../protocols/hash-compare';
 import { TokenGenerator } from '../../protocols/token-generator';
+import { UpdateAccessTokenRepository } from '../../protocols/update-access-token-repository';
 import {
   AccountModel,
   Authentication,
@@ -14,14 +15,18 @@ export class DbAuthentication implements Authentication {
 
   private readonly tokenGenerator: TokenGenerator;
 
+  private readonly updateAccessTokenRepository: UpdateAccessTokenRepository;
+
   constructor(
     loadAccountByEmailRepository: LoadAccountByEmailRepository,
     hashCompare: HashCompare,
     tokenGenerator: TokenGenerator,
+    updateAccessTokenRepository: UpdateAccessTokenRepository,
   ) {
     this.loadAccountByEmailRepository = loadAccountByEmailRepository;
     this.hashCompare = hashCompare;
     this.tokenGenerator = tokenGenerator;
+    this.updateAccessTokenRepository = updateAccessTokenRepository;
   }
 
   auth = async (
@@ -47,6 +52,8 @@ export class DbAuthentication implements Authentication {
     }
 
     const token = await this.tokenGenerator.generate(account.id);
+
+    await this.updateAccessTokenRepository.update(account.id, token);
 
     return token;
   };
