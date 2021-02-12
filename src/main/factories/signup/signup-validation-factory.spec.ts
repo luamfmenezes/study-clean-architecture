@@ -4,7 +4,7 @@ import {
   RequiredFieldValidation,
 } from '../../../presentation/helpers/validators';
 import { EmailValidator } from '../../../presentation/protocols/emailValidator';
-import { EmailValidatorAdapter } from '../../../utils/email-validator-adapter';
+import { EmailValidatorAdapter } from '../../adapters/validators/email-validator-adapter';
 import { makeSignUpValidation } from './signup-validation-factory';
 
 // Refactory test
