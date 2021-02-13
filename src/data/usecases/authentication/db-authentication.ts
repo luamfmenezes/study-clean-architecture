@@ -1,3 +1,4 @@
+import { Encrypt } from '../../protocols/cryptograph/encrypt';
 import {
   Authentication,
   AuthenticationModel,
@@ -12,19 +13,19 @@ export class DbAuthentication implements Authentication {
 
   private readonly hashCompare: HashCompare;
 
-  private readonly tokenGenerator: TokenGenerator;
+  private readonly encrypt: Encrypt;
 
   private readonly updateAccessTokenRepository: UpdateAccessTokenRepository;
 
   constructor(
     loadAccountByEmailRepository: LoadAccountByEmailRepository,
     hashCompare: HashCompare,
-    tokenGenerator: TokenGenerator,
+    encrypt: Encrypt,
     updateAccessTokenRepository: UpdateAccessTokenRepository,
   ) {
     this.loadAccountByEmailRepository = loadAccountByEmailRepository;
     this.hashCompare = hashCompare;
-    this.tokenGenerator = tokenGenerator;
+    this.encrypt = encrypt;
     this.updateAccessTokenRepository = updateAccessTokenRepository;
   }
 
@@ -50,7 +51,7 @@ export class DbAuthentication implements Authentication {
       return undefined;
     }
 
-    const token = await this.tokenGenerator.generate(account.id);
+    const token = await this.encrypt.encrypt(account.id);
 
     await this.updateAccessTokenRepository.updateAccessToken(account.id, token);
 
