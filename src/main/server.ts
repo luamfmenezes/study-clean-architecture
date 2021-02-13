@@ -5,8 +5,8 @@ import env from './config/env';
 const startServer = async () => {
   await MongoHelper.connect(env.mongoUrl);
 
-  app.listen(5000, () => {
-    console.log('Sever running at http:localhost:5000');
+  app.listen(env.port, () => {
+    console.log(`Sever running at http:localhost:${env.port}`);
   });
 };
 

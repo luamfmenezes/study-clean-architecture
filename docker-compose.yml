@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo:3
+    restart: : always
+    volumes

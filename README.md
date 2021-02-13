@@ -83,3 +83,7 @@ supertest
 1. Factory
 2. Decorator
 3. Composite
+
+## Docker
+
+docker container prune - clean all containers
