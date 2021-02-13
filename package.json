@@ -1,6 +1,6 @@
 {
   "name": "clean-architecture-polls-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
   "author": "Luam F Menezes <luamfmenezes@gmail.com>",
   "license": "MIT",
