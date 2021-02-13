@@ -2,8 +2,8 @@
   "compilerOptions": {
     "target": "es2019",
     "module": "commonjs",
-    "outDir": "./dist",
-    "rootDir": "./",
+    "outDir": "dist",
+    "rootDir": "./src",
     "strict": true,
     "strictPropertyInitialization": false,
     "allowJs": true,
@@ -12,5 +12,7 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": ["src"],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts"]
 }

@@ -1,5 +1,6 @@
 import { Express, Router } from 'express';
 import fastGlob from 'fast-glob';
+import { readdirSync } from 'fs';
 
 export default (app: Express): void => {
   // Tip: Use import dynamicly
@@ -7,7 +8,9 @@ export default (app: Express): void => {
 
   app.use('/api', router);
 
-  fastGlob.sync('**/src/main/routes/**routes.ts').map(async file => {
-    (await import(`../../../${file}`)).default(router);
+  readdirSync(`${__dirname}/../routes`).map(async file => {
+    if (!file.includes('.test.')) {
+      (await import(`../routes/${file}`)).default(router);
+    }
   });
 };
