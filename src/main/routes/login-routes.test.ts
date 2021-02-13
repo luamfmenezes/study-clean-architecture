@@ -33,7 +33,7 @@ describe('Login Routes', () => {
   });
 
   describe('POST /login', () => {
-    test('should return 200 on login', async () => {
+    test('should return 200 on login when provided with valid params', async () => {
       const password = await hash('password', 12);
 
       await accountCollection.insertOne({
@@ -52,7 +52,7 @@ describe('Login Routes', () => {
     });
   });
   describe('POST /login', () => {
-    test('should return 401 on login when provided with invalid user', async () => {
+    test('should return 401 on login when provided with invalid params', async () => {
       await request(app)
         .post('/api/login')
         .send({
