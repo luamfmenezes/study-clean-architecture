@@ -4,7 +4,6 @@ import {
   AuthenticationModel,
   LoadAccountByEmailRepository,
   HashCompare,
-  TokenGenerator,
   UpdateAccessTokenRepository,
 } from './db-authentication-protocols';
 
@@ -32,11 +31,9 @@ export class DbAuthentication implements Authentication {
   auth = async (
     authentication: AuthenticationModel,
   ): Promise<string | undefined> => {
-    const { password } = authentication;
+    const { password, email } = authentication;
 
-    const account = await this.loadAccountByEmailRepository.loadByEmail(
-      authentication.email,
-    );
+    const account = await this.loadAccountByEmailRepository.loadByEmail(email);
 
     if (!account) {
       return undefined;

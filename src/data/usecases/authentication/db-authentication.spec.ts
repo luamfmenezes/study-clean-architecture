@@ -141,7 +141,7 @@ describe('DbAuthentication UseCase', () => {
   test('Should throw if HashCompare throws', async () => {
     const { sut, hashCompareStub } = makeSut();
 
-    jest.spyOn(hashCompareStub, 'compare').mockImplementation(() => {
+    jest.spyOn(hashCompareStub, 'compare').mockImplementationOnce(() => {
       throw Error();
     });
 
@@ -172,7 +172,7 @@ describe('DbAuthentication UseCase', () => {
   test('Should throw if TokenGenerator throws', async () => {
     const { sut, encryptStub } = makeSut();
 
-    jest.spyOn(encryptStub, 'encrypt').mockImplementation(() => {
+    jest.spyOn(encryptStub, 'encrypt').mockImplementationOnce(() => {
       throw Error();
     });
 
@@ -204,7 +204,7 @@ describe('DbAuthentication UseCase', () => {
 
     jest
       .spyOn(updateAccessTokenRepositoryStub, 'updateAccessToken')
-      .mockImplementation(() => {
+      .mockImplementationOnce(() => {
         throw Error();
       });
 
