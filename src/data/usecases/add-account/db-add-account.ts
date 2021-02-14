@@ -1,3 +1,4 @@
+import { LoadAccountByEmailRepository } from '../authentication/db-authentication-protocols';
 import {
   AccountModel,
   AddAccount,
@@ -11,13 +12,30 @@ export class DbAddAccount implements AddAccount {
 
   private readonly addAccountRepository: AddAccountRepository;
 
-  constructor(hasher: Hasher, addAccountRepository: AddAccountRepository) {
+  private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository;
+
+  constructor(
+    hasher: Hasher,
+    addAccountRepository: AddAccountRepository,
+    loadAccountByEmailRepository: LoadAccountByEmailRepository,
+  ) {
     this.hasher = hasher;
     this.addAccountRepository = addAccountRepository;
+    this.loadAccountByEmailRepository = loadAccountByEmailRepository;
   }
 
-  add = async (accountData: AddAccountModel): Promise<AccountModel> => {
+  add = async (
+    accountData: AddAccountModel,
+  ): Promise<AccountModel | undefined> => {
     const { email, name, password } = accountData;
+
+    const userAlreadExist = await this.loadAccountByEmailRepository.loadByEmail(
+      email,
+    );
+
+    if (userAlreadExist) {
+      return undefined;
+    }
 
     const enctryptedPassword = await this.hasher.hash(password);
 
