@@ -1,24 +1,32 @@
 import {
-  EmailValidator,
   AddAccount,
   AddAccountModel,
   AccountModel,
   Validation,
+  Authentication,
 } from './signUp-controller-protocols';
 import SignUpController from './SignUp-controller';
-import { badRequest, serverError } from '../../helpers/http/http-helper';
+import {
+  badRequest,
+  forbidden,
+  serverError,
+} from '../../helpers/http/http-helper';
 import { HttpRequest } from '../../protocols';
+import { EmailInUseError } from '../../errors';
 
 interface SubTypes {
   sut: SignUpController;
   addAccountStub: AddAccount;
   validationStub: Validation;
+  authenticationStub: Authentication;
 }
 
-/*
- Improviment: create a factory outside of the text
- Or create a fakeEmailValidator
- */
+const makeAuthenticationStub = (): Authentication => {
+  class AuthenticationStub {
+    auth = async (): Promise<string | undefined> => 'token';
+  }
+  return new AuthenticationStub();
+};
 
 const makeValidationStub = (): Validation => {
   class ValidationStub implements Validation {
@@ -27,15 +35,6 @@ const makeValidationStub = (): Validation => {
     };
   }
   return new ValidationStub();
-};
-
-const makeEmailValidator = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator {
-    isValid = (): boolean => {
-      return true;
-    };
-  }
-  return new EmailValidatorStub();
 };
 
 const makeAddAccount = (): AddAccount => {
@@ -64,11 +63,17 @@ const makeFakeHttpRequest = (): HttpRequest => ({
 const makeSut = (): SubTypes => {
   const addAccountStub = makeAddAccount();
   const validationStub = makeValidationStub();
-  const sut = new SignUpController(addAccountStub, validationStub);
+  const authenticationStub = makeAuthenticationStub();
+  const sut = new SignUpController(
+    addAccountStub,
+    validationStub,
+    authenticationStub,
+  );
   return {
     sut,
     addAccountStub,
     validationStub,
+    authenticationStub,
   };
 };
 
@@ -101,22 +106,6 @@ describe('SignUp Controller', () => {
     expect(httpResponse).toEqual(serverError(new Error()));
   });
 
-  it('should return 200 if valid data is provided', async () => {
-    const { sut } = makeSut();
-
-    const httpRequest = makeFakeHttpRequest();
-
-    const httpResponse = await sut.handle(httpRequest);
-
-    expect(httpResponse.statusCode).toBe(200);
-    expect(httpResponse.body).toEqual({
-      id: 'valid-id',
-      email: 'jhondoe@email.com',
-      name: 'jhondoe',
-      password: 'password',
-    });
-  });
-
   it('should call validation with correct value', async () => {
     const { sut, validationStub } = makeSut();
 
@@ -139,5 +128,56 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(httpRequest);
 
     expect(httpResponse).toEqual(badRequest(new Error()));
+  });
+
+  it('should call authentication with correct values', async () => {
+    const { sut, authenticationStub } = makeSut();
+
+    const authenticationSpy = jest.spyOn(authenticationStub, 'auth');
+
+    const httpRequest = makeFakeHttpRequest();
+
+    await sut.handle(httpRequest);
+
+    expect(authenticationSpy).toBeCalledWith({
+      email: 'jhondoe@email.com',
+      password: 'password',
+    });
+  });
+  it('should return 500 if authentication.auth throws', async () => {
+    const { sut, authenticationStub } = makeSut();
+
+    jest.spyOn(authenticationStub, 'auth').mockImplementation(() => {
+      throw new Error();
+    });
+
+    const httpRequest = makeFakeHttpRequest();
+
+    const response = await sut.handle(httpRequest);
+
+    expect(response).toEqual(serverError(new Error()));
+  });
+
+  it('should return 403 if addAccount return null', async () => {
+    const { sut, addAccountStub } = makeSut();
+
+    jest.spyOn(addAccountStub, 'add').mockResolvedValue(undefined);
+
+    const httpRequest = makeFakeHttpRequest();
+
+    const response = await sut.handle(httpRequest);
+
+    expect(response).toEqual(forbidden(new EmailInUseError()));
+  });
+
+  it('should return 200 if valid data is provided', async () => {
+    const { sut } = makeSut();
+
+    const httpRequest = makeFakeHttpRequest();
+
+    const httpResponse = await sut.handle(httpRequest);
+
+    expect(httpResponse.statusCode).toBe(200);
+    expect(httpResponse.body).toEqual({ accessToken: 'token' });
   });
 });

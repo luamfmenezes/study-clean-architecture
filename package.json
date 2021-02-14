@@ -35,9 +35,13 @@
     "typescript": "^4.1.3"
   },
   "scripts": {
+    "debug": "node --inspect=0.0.0.0:9222 --nolazy dist/main/server.js",
     "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc",
+    "build:watch": "tsc -w",
     "dev": "sucrase-node src/main/server.ts",
+    "up": "npm build && docker-compose up -d",
+    "down": "docker-compose down",
     "test": "jest --passWithNoTests --silent --noStackTrace",
     "test:verbose": "jest --passWithNoTests",
     "test:staged": "jest --passWithNoTests --findRelatedTests",
@@ -51,6 +55,7 @@
     "fast-glob": "^3.2.5",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.4",
+    "nodemon": "^2.0.7",
     "validator": "^13.5.2"
   },
   "engines": {

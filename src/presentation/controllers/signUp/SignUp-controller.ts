@@ -1,10 +1,17 @@
-import { badRequest, serverError, ok } from '../../helpers/http/http-helper';
+import { EmailInUseError } from '../../errors';
+import {
+  badRequest,
+  serverError,
+  ok,
+  forbidden,
+} from '../../helpers/http/http-helper';
 import {
   Controller,
   HttpRequest,
   HttpResponse,
   AddAccount,
   Validation,
+  Authentication,
 } from './signUp-controller-protocols';
 
 export default class SignUpController implements Controller {
@@ -12,10 +19,16 @@ export default class SignUpController implements Controller {
 
   private readonly validation: Validation;
 
-  // Tip: two ways of catch the dependece injection
-  constructor(addAccount: AddAccount, validation: Validation) {
+  private readonly authentication: Authentication;
+
+  constructor(
+    addAccount: AddAccount,
+    validation: Validation,
+    authentication: Authentication,
+  ) {
     this.addAccount = addAccount;
     this.validation = validation;
+    this.authentication = authentication;
   }
 
   public handle = async (httpRequest: HttpRequest): Promise<HttpResponse> => {
@@ -34,7 +47,16 @@ export default class SignUpController implements Controller {
         password,
       });
 
-      return ok(account);
+      if (!account) {
+        return forbidden(new EmailInUseError());
+      }
+
+      const accessToken = await this.authentication.auth({
+        email,
+        password,
+      });
+
+      return ok({ accessToken });
     } catch (error) {
       return serverError(error);
     }

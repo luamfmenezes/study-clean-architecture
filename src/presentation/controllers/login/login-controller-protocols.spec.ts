@@ -53,7 +53,7 @@ describe('Login Controller', () => {
 
     const httpRequest = makeFakeHttpRequest();
 
-    sut.handle(httpRequest);
+    await sut.handle(httpRequest);
 
     expect(validateSpy).toBeCalledWith(httpRequest.body);
   });

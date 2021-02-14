@@ -87,3 +87,11 @@ supertest
 ## Docker
 
 docker container prune - clean all containers
+
+docker run -it container-name sh
+
+## Debug api
+
+1. Set sourceMap on tsconfig.
+2. Create debug script
+3. Create lauch.json on layer debug vscode

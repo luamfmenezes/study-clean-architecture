@@ -46,7 +46,6 @@ describe('Account Mongo Repository', () => {
     expect(account?.id).toBeTruthy();
     expect(account?.name).toBe('jhondoe');
     expect(account?.email).toBe('jhondoe@email.com');
-    expect(account?.password).toBe('password');
   });
   it('should return undefined account if loadByEmail fails', async () => {
     const sut = makeSut();
