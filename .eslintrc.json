@@ -17,6 +17,8 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "no-useless-constructor": "off",
+    "@typescript-eslint/no-useless-constructor": ["error"],
     "prettier/prettier": "error",
     "import/prefer-default-export": "off",
     "no-restricted-syntax": 0,

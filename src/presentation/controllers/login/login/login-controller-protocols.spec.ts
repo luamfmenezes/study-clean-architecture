@@ -9,7 +9,7 @@ import {
   ok,
   serverError,
   unauthorized,
-} from '../../helpers/http/http-helper';
+} from '../../../helpers/http/http-helper';
 
 interface SutTypes {
   sut: LoginController;

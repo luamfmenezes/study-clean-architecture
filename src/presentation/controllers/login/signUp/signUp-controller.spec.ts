@@ -10,9 +10,9 @@ import {
   badRequest,
   forbidden,
   serverError,
-} from '../../helpers/http/http-helper';
-import { HttpRequest } from '../../protocols';
-import { EmailInUseError } from '../../errors';
+} from '../../../helpers/http/http-helper';
+import { HttpRequest } from '../../../protocols';
+import { EmailInUseError } from '../../../errors';
 
 interface SubTypes {
   sut: SignUpController;
