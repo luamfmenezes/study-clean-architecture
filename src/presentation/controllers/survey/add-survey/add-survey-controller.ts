@@ -22,6 +22,7 @@ export class AddSurveyController implements Controller {
       const { body } = httpRequest;
 
       const validationError = this.validation.validate(body);
+
       if (validationError) {
         return badRequest(validationError);
       }
