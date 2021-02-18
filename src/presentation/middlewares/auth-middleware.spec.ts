@@ -1,9 +1,12 @@
 import { forbidden, ok, serverError } from '../helpers/http/http-helper';
 import { AccessDeniedError } from '../errors/access-denied-error';
 import { AuthMiddleware } from './auth-middleware';
-import { HttpRequest, Middleware } from '../protocols';
-import { AccountModel } from '../../domain/models/account';
-import { LoadAccountByToken } from '../../domain/usecases/load-account-by-token';
+import {
+  HttpRequest,
+  Middleware,
+  AccountModel,
+  LoadAccountByToken,
+} from './auth-middleware-protocols';
 
 const makeAccountModel = (): AccountModel => ({
   id: 'valid-id',
