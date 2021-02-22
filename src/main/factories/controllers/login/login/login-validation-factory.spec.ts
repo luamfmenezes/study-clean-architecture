@@ -1,9 +1,9 @@
 import {
   EmailValidation,
   RequiredFieldValidation,
-} from '../../../../validation/validators';
-import { EmailValidator } from '../../../../validation/protocols/emailValidator';
-import { EmailValidatorAdapter } from '../../../../infra/validators/email-validator-adapter';
+} from '../../../../../validation/validators';
+import { EmailValidator } from '../../../../../validation/protocols/emailValidator';
+import { EmailValidatorAdapter } from '../../../../../infra/validators/email-validator-adapter';
 import { makeLoginValidation } from './login-validation-factory';
 
 // Refactory test
@@ -15,7 +15,7 @@ const makeEmailValidatorStub = (): EmailValidatorAdapter => {
   return new EmailValidatorStub();
 };
 
-jest.mock('../../../../validation/validators/validation-composite');
+jest.mock('../../../../../validation/validators/validation-composite');
 
 describe('LoginValidation Factory', () => {
   test('Should call ValidationComposite with all validations', () => {
