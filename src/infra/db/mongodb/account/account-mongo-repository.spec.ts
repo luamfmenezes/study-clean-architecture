@@ -11,6 +11,11 @@ const makeFakeUser = () => ({
   password: 'password',
 });
 
+const makeFakeUserWithToken = () => ({
+  ...makeFakeUser(),
+  accessToken: 'token',
+});
+
 let accountCollection: Collection;
 
 describe('Account Mongo Repository', () => {
@@ -74,6 +79,30 @@ describe('Account Mongo Repository', () => {
 
       expect(account).toBeTruthy();
       expect(account.accessToken).toBe('any_token');
+    });
+  });
+  describe('loadByToken()', () => {
+    it('should return an account on loadByToken with role', async () => {
+      const sut = makeSut();
+
+      await accountCollection.insertOne({
+        ...makeFakeUserWithToken(),
+        role: 'role',
+      });
+
+      const account = await sut.loadByToken('token', 'role');
+
+      expect(account).toBeTruthy();
+      expect(account?.id).toBeTruthy();
+      expect(account?.name).toBe('jhondoe');
+      expect(account?.email).toBe('jhondoe@email.com');
+    });
+    it('should return undefined account if loadByToken fails', async () => {
+      const sut = makeSut();
+
+      const account = await sut.loadByEmail('jhondoe@email.com');
+
+      expect(account).toBeFalsy();
     });
   });
 });
