@@ -20,7 +20,7 @@ export class DbLoadAccountByToken implements LoadAccountByToken {
     }
 
     const account = await this.loadAccountByTokenRepository.loadByToken(
-      decryptedToken,
+      token,
       role,
     );
 
