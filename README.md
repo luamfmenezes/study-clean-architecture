@@ -83,6 +83,7 @@ supertest
 1. Factory
 2. Decorator
 3. Composite
+4. Proxy - addapters
 
 ## Docker
 

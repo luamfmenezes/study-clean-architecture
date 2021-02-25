@@ -32,11 +32,11 @@ describe('Survey Routes', () => {
   });
 
   describe('POST /surveys', () => {
-    test('should return 200 on SignUp', async () => {
+    test('should return 403 on SignUp when not provided with token', async () => {
       await request(app)
         .post('/api/surveys')
         .send(makeFakeAddSurvey())
-        .expect(204);
+        .expect(403);
     });
   });
 });
