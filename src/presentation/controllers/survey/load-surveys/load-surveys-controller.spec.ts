@@ -7,7 +7,7 @@ import { AddSurveyModel } from '../../../../domain/usecases/add-survey';
 import { Controller, HttpRequest } from '../../../protocols';
 import { LoadSurveysController } from './load-surveys-controller';
 import { LoadSurveys } from '../../../../domain/usecases/load-surveys';
-import { ok, serverError } from '../../../helpers/http/http-helper';
+import { noContent, ok, serverError } from '../../../helpers/http/http-helper';
 
 interface SutTypes {
   sut: Controller;
@@ -39,17 +39,6 @@ const makeSut = (): SutTypes => {
   };
 };
 
-const makeFakeSurvey = (): AddSurveyModel => ({
-  question: 'any_question',
-  date: new Date(),
-  answers: [
-    {
-      image: 'image.png',
-      answer: 'answer',
-    },
-  ],
-});
-
 describe('Load Surveys Controller', () => {
   beforeEach(() => {
     MockDate.set(new Date());
@@ -77,11 +66,20 @@ describe('Load Surveys Controller', () => {
 
     expect(response).toEqual(serverError(new Error()));
   });
-  test('Should return surveys if success', async () => {
+  test('Should return ok with surveys if it success', async () => {
     const { sut } = makeSut();
 
     const response = await sut.handle({});
 
     expect(response).toEqual(ok(makeSurveys()));
+  });
+  test('Should return 204 if loadSurvey return an empty array', async () => {
+    const { sut, loadSurveysStub } = makeSut();
+
+    jest.spyOn(loadSurveysStub, 'load').mockResolvedValue([]);
+
+    const response = await sut.handle({});
+
+    expect(response).toEqual(noContent());
   });
 });
