@@ -1,13 +1,13 @@
 import MockDate from 'mockdate';
 import {
-  SurveyAnswerModel,
   SurveyModels,
-} from '../../../../domain/models/survey';
-import { AddSurveyModel } from '../../../../domain/usecases/add-survey';
-import { Controller, HttpRequest } from '../../../protocols';
+  LoadSurveys,
+  noContent,
+  ok,
+  serverError,
+} from './load-surveys-controller-protocols';
+import { Controller } from '../../../protocols';
 import { LoadSurveysController } from './load-surveys-controller';
-import { LoadSurveys } from '../../../../domain/usecases/load-surveys';
-import { noContent, ok, serverError } from '../../../helpers/http/http-helper';
 
 interface SutTypes {
   sut: Controller;
