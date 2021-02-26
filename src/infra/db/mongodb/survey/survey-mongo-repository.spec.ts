@@ -17,6 +17,7 @@ const makeFakeSurvey = (): AddSurveyModel => ({
       answer: 'answer-two',
     },
   ],
+  date: new Date(),
 });
 
 let surveyCollection: Collection;

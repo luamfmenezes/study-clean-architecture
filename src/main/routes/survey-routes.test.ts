@@ -19,6 +19,7 @@ const makeFakeAddSurvey = (): AddSurveyModel => ({
       answer: 'answer-two',
     },
   ],
+  date: new Date(),
 });
 
 const makeFakeAccount = () => ({

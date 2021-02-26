@@ -1,3 +1,4 @@
+import MockDate from 'mockdate';
 import {
   badRequest,
   noContent,
@@ -39,7 +40,7 @@ const makeSut = (): SutTypes => {
 
 const makeFakeAddSurveyBody = () => ({
   question: 'any_question',
-  answer: [
+  answers: [
     {
       image: 'image.png',
       answer: 'answer',
@@ -52,6 +53,12 @@ const makeFakeHttpRequest = (): HttpRequest => ({
 });
 
 describe('AddSurvey Controller', () => {
+  beforeEach(() => {
+    MockDate.set(new Date());
+  });
+  afterEach(() => {
+    MockDate.reset();
+  });
   test('Should call Validation with correct values', async () => {
     const { sut, validationStub } = makeSut();
 
@@ -79,7 +86,10 @@ describe('AddSurvey Controller', () => {
 
     await sut.handle(makeFakeHttpRequest());
 
-    expect(spyAddSurvey).toBeCalledWith(makeFakeAddSurveyBody());
+    expect(spyAddSurvey).toBeCalledWith({
+      ...makeFakeAddSurveyBody(),
+      date: new Date(),
+    });
   });
   test('Should return serverError if addSurvay trhows', async () => {
     const { sut, addSurveyStub } = makeSut();

@@ -27,7 +27,9 @@ export class AddSurveyController implements Controller {
         return badRequest(validationError);
       }
 
-      await this.addSurvey.add(body);
+      const { question, answers } = body;
+
+      await this.addSurvey.add({ question, answers, date: new Date() });
 
       return noContent();
     } catch (error) {
