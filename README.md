@@ -96,3 +96,8 @@ docker run -it container-name sh
 1. Set sourceMap on tsconfig.
 2. Create debug script
 3. Create lauch.json on layer debug vscode
+
+## CI/CD
+
+1. Travis CI
+2. Coveralls
