@@ -33,12 +33,32 @@ describe('Survey Mongo Repository', () => {
   afterAll(async () => {
     await MongoHelper.disconnect();
   });
-  it('should add a survey on success', async () => {
-    const sut = makeSut();
+  describe('add()', () => {
+    it('should add a survey on success', async () => {
+      const sut = makeSut();
 
-    await sut.add(makeFakeSurvey());
+      await sut.add(makeFakeSurvey());
 
-    const sruvey = await surveyCollection.findOne({ question: 'question' });
-    expect(sruvey).toBeTruthy();
+      const sruvey = await surveyCollection.findOne({ question: 'question' });
+      expect(sruvey).toBeTruthy();
+    });
+  });
+  describe('loadAll()', () => {
+    it('should load all surveys on success', async () => {
+      await surveyCollection.insertMany([makeFakeSurvey(), makeFakeSurvey()]);
+
+      const sut = makeSut();
+
+      const surveys = await sut.loadAll();
+
+      expect(surveys.length).toBe(2);
+    });
+    it('should load an empty list', async () => {
+      const sut = makeSut();
+
+      const surveys = await sut.loadAll();
+
+      expect(surveys.length).toBe(0);
+    });
   });
 });
