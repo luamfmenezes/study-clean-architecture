@@ -52,9 +52,6 @@ describe('Survey Routes', () => {
         .send(makeFakeAddSurvey())
         .expect(403);
     });
-  });
-
-  describe('POST /surveys', () => {
     test('should return 200 on SignUp when provided with token', async () => {
       const user = await accountCollection.insertOne(makeFakeAccount());
 
@@ -72,6 +69,14 @@ describe('Survey Routes', () => {
         .set('x-access-token', accessToken)
         .send(makeFakeAddSurvey())
         .expect(204);
+    });
+  });
+  describe('GET /surveys', () => {
+    test('should return 403 on /survey when it is not provided with token', async () => {
+      await request(app)
+        .get('/api/surveys')
+        .send(makeFakeAddSurvey())
+        .expect(403);
     });
   });
 });
