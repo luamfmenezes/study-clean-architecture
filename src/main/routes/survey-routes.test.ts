@@ -31,6 +31,24 @@ const makeFakeAccount = () => ({
 let surveyCollection: Collection;
 let accountCollection: Collection;
 
+const makeUserToken = async (role?: string): Promise<string> => {
+  const user = await accountCollection.insertOne(makeFakeAccount());
+  const id = user.ops[0]._id;
+  const accessToken = sign({ id }, env.jwtSecret);
+
+  const $set = { accessToken };
+
+  if (role) {
+    Object.assign($set, { role });
+  }
+
+  await accountCollection.updateOne(
+    { _id: id },
+    { $set: { accessToken, role: 'admin' } },
+  );
+  return accessToken;
+};
+
 describe('Survey Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL || '');
@@ -46,23 +64,14 @@ describe('Survey Routes', () => {
   });
 
   describe('POST /surveys', () => {
-    test('should return 403 on SignUp when not provided with token', async () => {
+    test('should return 403 on /surveys when not provided with token', async () => {
       await request(app)
         .post('/api/surveys')
         .send(makeFakeAddSurvey())
         .expect(403);
     });
-    test('should return 200 on SignUp when provided with token', async () => {
-      const user = await accountCollection.insertOne(makeFakeAccount());
-
-      const id = user.ops[0]._id;
-
-      const accessToken = sign({ id }, env.jwtSecret);
-
-      await accountCollection.updateOne(
-        { _id: id },
-        { $set: { accessToken, role: 'admin' } },
-      );
+    test('should return 200 on /surveys when provided with token', async () => {
+      const accessToken = await makeUserToken('admin');
 
       await request(app)
         .post('/api/surveys')
@@ -78,5 +87,26 @@ describe('Survey Routes', () => {
         .send(makeFakeAddSurvey())
         .expect(403);
     });
+  });
+
+  test('should return 204 on SignUp when provided with token, when list is empty', async () => {
+    const accessToken = await makeUserToken();
+    await request(app)
+      .post('/api/surveys')
+      .set('x-access-token', accessToken)
+      .send(makeFakeAddSurvey())
+      .expect(204);
+  });
+
+  test('should return 200 on SignUp when provided with token', async () => {
+    const accessToken = await makeUserToken();
+
+    await surveyCollection.insertOne(makeFakeAddSurvey());
+
+    await request(app)
+      .post('/api/surveys')
+      .set('x-access-token', accessToken)
+      .send(makeFakeAddSurvey())
+      .expect(200);
   });
 });
