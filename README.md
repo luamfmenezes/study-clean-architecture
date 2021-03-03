@@ -80,10 +80,10 @@ supertest
 
 ## Patterns
 
-1. Factory
-2. Decorator
-3. Composite
-4. Proxy - addapters
+1. Factory -
+2. Decorator - Wrapper
+3. Composite -
+4. Proxy - express addapters
 
 ## Docker
 
