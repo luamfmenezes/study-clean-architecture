@@ -1,11 +1,7 @@
-export interface SurveyAnswerModel {
-  image?: string;
-  answer: string;
-}
-
-export interface SurveyModels {
+export interface SurveyResultModel {
   id: string;
-  question: string;
-  answers: SurveyAnswerModel[];
+  surveyId: string;
+  accountId: string;
+  answer: string;
   date: Date;
 }
