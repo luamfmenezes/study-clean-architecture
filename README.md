@@ -56,6 +56,8 @@ search by "Tip:" in the code
 
 save all when move a dependence.
 
+It's recommended to start a feature by the domain
+
 ## Jest
 
 jest --passWithNoTests --silent --noStackTrace
