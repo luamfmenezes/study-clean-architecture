@@ -5,7 +5,7 @@ import { LogRepository } from '../../data/protocols/db/log/log-error-repository'
 
 const makeLogRepositoryStub = (): LogRepository => {
   class LogRepositoryStub implements LogRepository {
-    logError = async (stack: string): Promise<void> => {
+    logError = async (): Promise<void> => {
       return new Promise(resolve => resolve());
     };
   }

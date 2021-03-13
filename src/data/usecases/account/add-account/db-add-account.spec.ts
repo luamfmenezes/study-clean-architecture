@@ -6,7 +6,7 @@ import {
   AddAccountRepository,
 } from './db-add-account-protocols';
 import { DbAddAccount } from './db-add-account';
-import { LoadAccountByEmailRepository } from '../authentication/db-authentication-protocols';
+import { LoadAccountByEmailRepository } from '../../authentication/db-authentication-protocols';
 
 const makeFakeAddAccount = (): AddAccountModel => ({
   email: 'jhondoe@email.com',

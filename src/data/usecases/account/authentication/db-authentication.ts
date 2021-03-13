@@ -1,4 +1,4 @@
-import { Encrypt } from '../../protocols/cryptograph/encrypt';
+import { Encrypt } from '../../../protocols/cryptograph/encrypt';
 import {
   Authentication,
   AuthenticationModel,

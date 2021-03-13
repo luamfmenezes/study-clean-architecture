@@ -1,7 +1,7 @@
 import { DbLoadSurveyById } from './db-load-survey-by-id';
-import { LoadSurveyByIdRepository } from '../../protocols/db/survey/load-survey-by-id-repository';
+import { LoadSurveyByIdRepository } from '../../../protocols/db/survey/load-survey-by-id-repository';
 import MockDate from 'mockdate';
-import { SurveyModels } from '../../../domain/models/survey';
+import { SurveyModels } from '../../../../domain/models/survey';
 
 const makeSurvey = (): SurveyModels => ({
   id: 'valid-id-1',

@@ -7,7 +7,7 @@ import {
   UpdateAccessTokenRepository,
 } from './db-authentication-protocols';
 import { DbAuthentication } from './db-authentication';
-import { Encrypt } from '../../protocols/cryptograph/encrypt';
+import { Encrypt } from '../../../protocols/cryptograph/encrypt';
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid-id',

@@ -1,9 +1,9 @@
-import { SurveyResultModel } from '../../../domain/models/survey-result';
+import { SurveyResultModel } from '../../../../domain/models/survey-result';
 import {
   SaveSurveyResult,
   SaveSurveyResultModel,
-} from '../../../domain/usecases/survey-result/save-survey-result';
-import { SaveSurveyResultRepository } from '../../protocols/db/survey/survey-result/save-survey-result-repository';
+} from '../../../../domain/usecases/survey-result/save-survey-result';
+import { SaveSurveyResultRepository } from '../../../protocols/db/survey/survey-result/save-survey-result-repository';
 
 export class DbSaveSurveyResult implements SaveSurveyResult {
   constructor(

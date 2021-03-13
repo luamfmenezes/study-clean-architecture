@@ -1,8 +1,8 @@
 import { DbSaveSurveyResult } from './db-save-survey-result';
 import MockDate from 'mockdate';
-import { SurveyResultModel } from '../../../domain/models/survey-result';
-import { SaveSurveyResultModel } from '../../../domain/usecases/save-survey-result';
-import { SaveSurveyResultRepository } from '../../protocols/db/survey/save-survey-result-repository';
+import { SurveyResultModel } from '../../../../domain/models/survey-result';
+import { SaveSurveyResultModel } from '../../../../domain/usecases/survey-result/save-survey-result';
+import { SaveSurveyResultRepository } from '../../../protocols/db/survey/survey-result/save-survey-result-repository';
 
 interface SutTypes {
   sut: DbSaveSurveyResult;
