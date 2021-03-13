@@ -50,6 +50,8 @@ search by "Improviment:" in the code
 9. Refactory makeValidation factory ./src/main/fatories
 10. Organize data/protocols in folders.
 
+11. Send email about survey-mongo-repository.findbyid - lack MongoHelper.map
+
 ## Tips
 
 search by "Tip:" in the code
@@ -57,6 +59,8 @@ search by "Tip:" in the code
 save all when move a dependence.
 
 It's recommended to start a feature by the domain
+
+would be acceptable insert the saveSuveryResult inside of the repository survey.
 
 ## Jest
 

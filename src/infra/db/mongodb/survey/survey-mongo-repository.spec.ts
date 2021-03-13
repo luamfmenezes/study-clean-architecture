@@ -61,4 +61,27 @@ describe('Survey Mongo Repository', () => {
       expect(surveys.length).toBe(0);
     });
   });
+  describe('loadById()', () => {
+    it('should return the specific survey on success', async () => {
+      const resInsertSurvey = await surveyCollection.insertOne(
+        makeFakeSurvey(),
+      );
+
+      const surveyId = resInsertSurvey.ops[0]._id;
+
+      const sut = makeSut();
+
+      const survey = await sut.loadById(surveyId);
+
+      expect(survey).toBeTruthy();
+      expect(survey?.id).toEqual(surveyId);
+    });
+    it('should return undefined when survey does not exist', async () => {
+      const sut = makeSut();
+
+      const survey = await sut.loadById('invalid-id');
+
+      expect(survey).toBeUndefined();
+    });
+  });
 });
