@@ -37,7 +37,7 @@ const makeFakeSurveyResult = (): SurveyResultModel => ({
 
 describe('DbAddSurvey UseCase', () => {
   beforeEach(() => {
-    MockDate.set(1434319925275);
+    MockDate.set(new Date());
   });
   afterEach(() => {
     MockDate.reset();
