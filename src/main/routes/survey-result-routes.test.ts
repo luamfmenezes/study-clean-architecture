@@ -7,16 +7,16 @@ import app from '../config/app';
 import MongoHelper from '../../infra/db/mongodb/helpers/mongo-helper';
 import env from '../config/env';
 
+let surveyCollection: Collection;
+let accountCollection: Collection;
+
 const makeFakeAccount = () => ({
   name: 'jhondoe',
   email: 'jhondoe@mail.com',
   password: 'password',
 });
 
-let surveyCollection: Collection;
-let accountCollection: Collection;
-
-const makeUserToken = async (role?: string): Promise<string> => {
+const makeAccessToken = async (role?: string): Promise<string> => {
   const user = await accountCollection.insertOne(makeFakeAccount());
   const id = user.ops[0]._id;
   const accessToken = sign({ id }, env.jwtSecret);
@@ -53,6 +53,31 @@ describe('Survey Routes', () => {
       await request(app)
         .put('/api/surveys/survey_id/results')
         .send({ answer: 'answer' })
+        .expect(403);
+    });
+  });
+
+  describe('POST /surveys/:surveysId/result', () => {
+    test('should return 200 on /surveys/result with valid params', async () => {
+      const accessToken = await makeAccessToken();
+      const res = await surveyCollection.insertOne({
+        question: 'question',
+        answers: [
+          {
+            answer: 'answer-one',
+            image: 'image.png',
+          },
+          {
+            answer: 'answer-two',
+          },
+        ],
+        date: new Date(),
+      });
+
+      await request(app)
+        .put(`/api/surveys/${res.ops[0]._id}/results`)
+        .set('x-access-token', accessToken)
+        .send({ answer: 'answer-one' })
         .expect(403);
     });
   });
