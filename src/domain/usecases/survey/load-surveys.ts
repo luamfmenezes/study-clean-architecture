@@ -1,5 +1,5 @@
-import { SurveyModels } from '../../models/survey';
+import { SurveyModel } from '../../models/survey';
 
 export interface LoadSurveys {
-  load(): Promise<SurveyModels[]>;
+  load(): Promise<SurveyModel[]>;
 }

@@ -1,6 +1,6 @@
 import MockDate from 'mockdate';
 import {
-  SurveyModels,
+  SurveyModel,
   LoadSurveys,
   noContent,
   ok,
@@ -14,7 +14,7 @@ interface SutTypes {
   loadSurveysStub: LoadSurveys;
 }
 
-const makeSurveys = (): SurveyModels[] => [
+const makeSurveys = (): SurveyModel[] => [
   {
     answers: [{ answer: 'answer-one', image: 'img.png' }],
     date: new Date(),
@@ -25,7 +25,7 @@ const makeSurveys = (): SurveyModels[] => [
 
 const makeLoadSurveysStub = () => {
   class LoadSurveysStub implements LoadSurveys {
-    load = async (): Promise<SurveyModels[]> => makeSurveys();
+    load = async (): Promise<SurveyModel[]> => makeSurveys();
   }
   return new LoadSurveysStub();
 };

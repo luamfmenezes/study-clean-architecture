@@ -1,6 +1,6 @@
 import {
   AddAccount,
-  AddAccountModel,
+  AddAccountParams,
   AccountModel,
   Validation,
   Authentication,
@@ -39,7 +39,7 @@ const makeValidationStub = (): Validation => {
 
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    add = async (account: AddAccountModel): Promise<AccountModel> => {
+    add = async (account: AddAccountParams): Promise<AccountModel> => {
       return {
         id: 'valid-id',
         name: account.name,

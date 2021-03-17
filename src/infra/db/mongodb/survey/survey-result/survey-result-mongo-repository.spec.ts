@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
 import { Collection } from 'mongodb';
-import { SurveyModels } from '../../../../../domain/models/survey';
+import { SurveyModel } from '../../../../../domain/models/survey';
 import MongoHelper from '../../helpers/mongo-helper';
 import { SurveyResultMongoRepository } from './survey-result-mongo-repository';
 
@@ -10,7 +10,7 @@ let accountCollection: Collection;
 
 const makeSut = () => new SurveyResultMongoRepository();
 
-const makeSurvey = async (): Promise<SurveyModels> => {
+const makeSurvey = async (): Promise<SurveyModel> => {
   const res = await surveyCollection.insertOne({
     question: 'question',
     answers: [

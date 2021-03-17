@@ -1,7 +1,7 @@
 import { Encrypt } from '../../../protocols/cryptograph/encrypt';
 import {
   Authentication,
-  AuthenticationModel,
+  AuthenticationParams,
   LoadAccountByEmailRepository,
   HashCompare,
   UpdateAccessTokenRepository,
@@ -29,7 +29,7 @@ export class DbAuthentication implements Authentication {
   }
 
   auth = async (
-    authentication: AuthenticationModel,
+    authentication: AuthenticationParams,
   ): Promise<string | undefined> => {
     const { password, email } = authentication;
 

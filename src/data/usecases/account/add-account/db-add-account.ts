@@ -2,7 +2,7 @@ import { LoadAccountByEmailRepository } from '../authentication/db-authenticatio
 import {
   AccountModel,
   AddAccount,
-  AddAccountModel,
+  AddAccountParams,
   Hasher,
   AddAccountRepository,
 } from './db-add-account-protocols';
@@ -25,7 +25,7 @@ export class DbAddAccount implements AddAccount {
   }
 
   add = async (
-    accountData: AddAccountModel,
+    accountData: AddAccountParams,
   ): Promise<AccountModel | undefined> => {
     const { email, name, password } = accountData;
 

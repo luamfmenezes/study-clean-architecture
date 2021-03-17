@@ -5,10 +5,10 @@ import { Collection } from 'mongodb';
 import { sign } from 'jsonwebtoken';
 import app from '../config/app';
 import MongoHelper from '../../infra/db/mongodb/helpers/mongo-helper';
-import { AddSurveyModel } from '../../domain/usecases/survey/add-survey';
+import { AddSurveyParams } from '../../domain/usecases/survey/add-survey';
 import env from '../config/env';
 
-const makeFakeAddSurvey = (): AddSurveyModel => ({
+const makeFakeAddSurvey = (): AddSurveyParams => ({
   question: 'question',
   answers: [
     {

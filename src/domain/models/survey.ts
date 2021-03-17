@@ -3,7 +3,7 @@ export interface SurveyAnswerModel {
   answer: string;
 }
 
-export interface SurveyModels {
+export interface SurveyModel {
   id: string;
   question: string;
   answers: SurveyAnswerModel[];

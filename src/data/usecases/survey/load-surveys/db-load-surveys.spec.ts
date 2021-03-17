@@ -1,4 +1,4 @@
-import { SurveyModels } from '../../../../domain/models/survey';
+import { SurveyModel } from '../../../../domain/models/survey';
 import { LoadSurveys } from '../../../../domain/usecases/survey/load-surveys';
 import { LoadSurveysRepository } from '../../../protocols/db/survey/load-surveys-repository';
 import { DbLoadSurveys } from './db-load-surveys';
@@ -9,7 +9,7 @@ interface SutTypes {
   loadSurveysRepositoryStub: LoadSurveysRepository;
 }
 
-const makeSurveys = (): SurveyModels[] => [
+const makeSurveys = (): SurveyModel[] => [
   {
     id: 'valid-id-1',
     answers: [{ image: 'img-1.png', answer: 'answer-1' }],
@@ -26,7 +26,7 @@ const makeSurveys = (): SurveyModels[] => [
 
 const makeLoadSurveysRepositoryStub = () => {
   class LoadSurveysRepositoryStub implements LoadSurveysRepository {
-    loadAll = async (): Promise<SurveyModels[]> => makeSurveys();
+    loadAll = async (): Promise<SurveyModel[]> => makeSurveys();
   }
   return new LoadSurveysRepositoryStub();
 };

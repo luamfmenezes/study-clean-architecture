@@ -7,11 +7,11 @@ import {
 } from '../../../../helpers/http/http-helper';
 import { HttpRequest } from '../../add-survey/add-survey-controller-protocols';
 import { LoadSurveyById } from '../../../../../domain/usecases/survey/load-surveys-by-id';
-import { SurveyModels } from '../../../../../domain/models/survey';
+import { SurveyModel } from '../../../../../domain/models/survey';
 import { InvalidParamError } from '../../../../errors';
 import {
   SaveSurveyResult,
-  SaveSurveyResultModel,
+  SaveSurveyResultParams,
 } from '../../../../../domain/usecases/survey-result/save-survey-result';
 import { SurveyResultModel } from '../../../../../domain/models/survey-result';
 
@@ -21,7 +21,7 @@ interface SutTypes {
   saveSurveyResultStub: SaveSurveyResult;
 }
 
-const makeFakeSurvey = (): SurveyModels => ({
+const makeFakeSurvey = (): SurveyModel => ({
   id: 'valid-id',
   question: 'question',
   answers: [
@@ -41,14 +41,16 @@ const makeFakeSurveyResult = (): SurveyResultModel => ({
 
 const makeLoadSurveyById = (): LoadSurveyById => {
   class DbLoadSurveyByIdStub implements LoadSurveyById {
-    loadById = async (): Promise<SurveyModels | undefined> => makeFakeSurvey();
+    loadById = async (): Promise<SurveyModel | undefined> => makeFakeSurvey();
   }
   return new DbLoadSurveyByIdStub();
 };
 
 const makeSaveSurveyResultStub = (): SaveSurveyResult => {
   class SaveSurveyResultStub implements SaveSurveyResult {
-    save = async (data: SaveSurveyResultModel): Promise<SurveyResultModel> => ({
+    save = async (
+      data: SaveSurveyResultParams,
+    ): Promise<SurveyResultModel> => ({
       ...data,
       id: 'id',
     });

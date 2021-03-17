@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Hasher,
-  AddAccountModel,
+  AddAccountParams,
   AccountModel,
   AddAccountRepository,
 } from './db-add-account-protocols';
 import { DbAddAccount } from './db-add-account';
-import { LoadAccountByEmailRepository } from '../../authentication/db-authentication-protocols';
+import { LoadAccountByEmailRepository } from '../../account/authentication/db-authentication-protocols';
 
-const makeFakeAddAccount = (): AddAccountModel => ({
+const makeFakeAddAccount = (): AddAccountParams => ({
   email: 'jhondoe@email.com',
   name: 'jhondoe',
   password: 'password',
@@ -28,7 +28,7 @@ const makeHasherStub = (): Hasher => {
 
 const makeAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub {
-    add = async (account: AddAccountModel): Promise<AccountModel> =>
+    add = async (account: AddAccountParams): Promise<AccountModel> =>
       makeFakeAccount();
   }
   return new AddAccountRepositoryStub();

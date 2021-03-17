@@ -1,9 +1,9 @@
 import { DbLoadSurveyById } from './db-load-survey-by-id';
 import { LoadSurveyByIdRepository } from '../../../protocols/db/survey/load-survey-by-id-repository';
 import MockDate from 'mockdate';
-import { SurveyModels } from '../../../../domain/models/survey';
+import { SurveyModel } from '../../../../domain/models/survey';
 
-const makeSurvey = (): SurveyModels => ({
+const makeSurvey = (): SurveyModel => ({
   id: 'valid-id-1',
   answers: [{ image: 'img-1.png', answer: 'answer-1' }],
   question: 'question-1',
@@ -12,7 +12,7 @@ const makeSurvey = (): SurveyModels => ({
 
 const makeLoadSurveyByIdRepositoryStub = (): LoadSurveyByIdRepository => {
   class LoadSurveyByIdRepositoryStub implements LoadSurveyByIdRepository {
-    loadById = async (): Promise<SurveyModels | undefined> => makeSurvey();
+    loadById = async (): Promise<SurveyModel | undefined> => makeSurvey();
   }
   return new LoadSurveyByIdRepositoryStub();
 };
