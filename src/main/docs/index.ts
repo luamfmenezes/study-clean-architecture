@@ -8,6 +8,7 @@ import {
 import { loginPath, surveyPath } from './paths';
 import {
   accountSchema,
+  apiKeyAuthSchema,
   errorSchema,
   loginParamsSchema,
   surveyAnswerSchema,
@@ -50,6 +51,9 @@ export default {
     surveyAnswer: surveyAnswerSchema,
   },
   components: {
+    securitySchemes: {
+      apiKeyAuth: apiKeyAuthSchema,
+    },
     badRequest,
     unauthorized,
     serverError,
