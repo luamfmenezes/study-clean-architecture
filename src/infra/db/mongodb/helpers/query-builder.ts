@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 export class QueryBuilder {
   private readonly query: Record<string, unknown>[] = [];
 

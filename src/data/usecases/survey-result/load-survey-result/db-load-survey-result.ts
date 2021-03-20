@@ -7,11 +7,12 @@ export class DbLoadSurveyResult implements LoadSurveyResult {
     private readonly loadSurveyResultRepository: LoadSurveyResultRepository,
   ) {}
 
-  public load = async (surveyId: string): Promise<SurveyResultModel> => {
+  public load = async (
+    surveyId: string,
+  ): Promise<SurveyResultModel | undefined> => {
     const surveyRepository = await this.loadSurveyResultRepository.loadBySurveyId(
       surveyId,
     );
-
     return surveyRepository;
   };
 }

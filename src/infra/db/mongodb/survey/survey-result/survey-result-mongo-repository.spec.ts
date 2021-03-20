@@ -51,51 +51,107 @@ describe('Survey Mongo Repository', () => {
   afterAll(async () => {
     await MongoHelper.disconnect();
   });
-  it('should add a survey result if it is new', async () => {
-    const survey = await makeSurvey();
-    const account = await makeAccount();
-    const sut = makeSut();
+  describe('save()', () => {
+    it('should add a survey result if it is new', async () => {
+      const survey = await makeSurvey();
+      const account = await makeAccount();
+      const sut = makeSut();
 
-    const surveyResult = await sut.save({
-      surveyId: survey.id,
-      accountId: account.id,
-      date: new Date(),
-      answer: survey.answers[0].answer,
+      const surveyResult = await sut.save({
+        surveyId: survey.id,
+        accountId: account.id,
+        date: new Date(),
+        answer: survey.answers[0].answer,
+      });
+
+      expect(surveyResult).toBeTruthy();
+      expect(surveyResult?.surveyId).toEqual(survey.id);
+      expect(surveyResult?.answers[0].count).toBe(1);
+      expect(surveyResult?.answers[0].percent).toBe(100);
+      expect(surveyResult?.answers[1].count).toBe(0);
+      expect(surveyResult?.answers[1].percent).toBe(0);
     });
 
-    expect(surveyResult).toBeTruthy();
-    expect(surveyResult.surveyId).toEqual(survey.id);
-    expect(surveyResult.answers[0].count).toBe(1);
-    expect(surveyResult.answers[0].percent).toBe(100);
-    expect(surveyResult.answers[1].count).toBe(0);
-    expect(surveyResult.answers[1].percent).toBe(0);
+    it('should update a survey it already exist', async () => {
+      const survey = await makeSurvey();
+      const account = await makeAccount();
+
+      await suveyResultCollection.insertOne({
+        surveyId: new ObjectId(survey.id),
+        accountId: new ObjectId(account.id),
+        answer: survey.answers[0].answer,
+        date: new Date(),
+      });
+
+      const sut = makeSut();
+
+      const surveyResult = await sut.save({
+        surveyId: survey.id,
+        accountId: account.id,
+        answer: survey.answers[1].answer,
+        date: new Date(),
+      });
+
+      expect(surveyResult).toBeTruthy();
+      expect(surveyResult.surveyId).toEqual(survey.id);
+      expect(surveyResult.answers[0].count).toBe(1);
+      expect(surveyResult.answers[0].percent).toBe(100);
+      expect(surveyResult.answers[1].count).toBe(0);
+      expect(surveyResult.answers[1].percent).toBe(0);
+    });
   });
 
-  it('should update a survey it already exist', async () => {
-    const survey = await makeSurvey();
-    const account = await makeAccount();
+  describe('loadBySurveyId()', () => {
+    it('should return a survey if it already exist', async () => {
+      const survey = await makeSurvey();
+      const account = await makeAccount();
 
-    await suveyResultCollection.insertOne({
-      surveyId: new ObjectId(survey.id),
-      accountId: new ObjectId(account.id),
-      answer: survey.answers[0].answer,
-      date: new Date(),
+      await suveyResultCollection.insertMany([
+        {
+          surveyId: new ObjectId(survey.id),
+          accountId: new ObjectId(account.id),
+          answer: survey.answers[0].answer,
+          date: new Date(),
+        },
+        {
+          surveyId: new ObjectId(survey.id),
+          accountId: new ObjectId(account.id),
+          answer: survey.answers[0].answer,
+          date: new Date(),
+        },
+        {
+          surveyId: new ObjectId(survey.id),
+          accountId: new ObjectId(account.id),
+          answer: survey.answers[0].answer,
+          date: new Date(),
+        },
+        {
+          surveyId: new ObjectId(survey.id),
+          accountId: new ObjectId(account.id),
+          answer: survey.answers[1].answer,
+          date: new Date(),
+        },
+      ]);
+
+      const sut = makeSut();
+
+      const surveyResult = await sut.loadBySurveyId(`${survey.id}`);
+
+      expect(surveyResult).toBeTruthy();
+      expect(surveyResult?.surveyId).toEqual(survey.id);
+      expect(surveyResult?.answers[0].count).toBe(3);
+      expect(surveyResult?.answers[0].percent).toBe(75);
+      expect(surveyResult?.answers[1].count).toBe(1);
+      expect(surveyResult?.answers[1].percent).toBe(25);
     });
+    it('should return a survey if it already exist', async () => {
+      const invalidId = '507f1f77bcf86cd799439011';
 
-    const sut = makeSut();
+      const sut = makeSut();
 
-    const surveyResult = await sut.save({
-      surveyId: survey.id,
-      accountId: account.id,
-      answer: survey.answers[1].answer,
-      date: new Date(),
+      const surveyResult = await sut.loadBySurveyId(invalidId);
+
+      expect(surveyResult).toBeFalsy();
     });
-
-    expect(surveyResult).toBeTruthy();
-    expect(surveyResult.surveyId).toEqual(survey.id);
-    expect(surveyResult.answers[0].count).toBe(1);
-    expect(surveyResult.answers[0].percent).toBe(100);
-    expect(surveyResult.answers[1].count).toBe(0);
-    expect(surveyResult.answers[1].percent).toBe(0);
   });
 });
