@@ -29,4 +29,36 @@ export const surveyPath = {
       },
     },
   },
+  post: {
+    security: [
+      {
+        apiKeyAuth: [],
+      },
+    ],
+    tags: ['Surveys'],
+    summary: 'API to create survey',
+    requestBody: {
+      content: {
+        'application/json': {
+          schema: {
+            $ref: '#/schemas/addSurveyParams',
+          },
+        },
+      },
+    },
+    responses: {
+      204: {
+        description: 'Success',
+      },
+      403: {
+        $ref: '#/components/forbidden',
+      },
+      404: {
+        $ref: '#/components/notFound',
+      },
+      500: {
+        $ref: '#/components/serverError',
+      },
+    },
+  },
 };
