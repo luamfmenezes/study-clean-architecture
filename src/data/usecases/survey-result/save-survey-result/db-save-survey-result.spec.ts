@@ -1,7 +1,10 @@
 import { DbSaveSurveyResult } from './db-save-survey-result';
 import MockDate from 'mockdate';
 import { SurveyResultModel } from '../../../../domain/models/survey-result';
-import { SaveSurveyResultParams } from '../../../../domain/usecases/survey-result/save-survey-result';
+import {
+  SaveSurveyResult,
+  SaveSurveyResultParams,
+} from '../../../../domain/usecases/survey-result/save-survey-result';
 import { SaveSurveyResultRepository } from '../../../protocols/db/survey/survey-result/save-survey-result-repository';
 
 interface SutTypes {
@@ -12,7 +15,7 @@ interface SutTypes {
 const makeSaveSurveyResultRepositoryStub = () => {
   class SaveSurveyResultRepositoryStub implements SaveSurveyResultRepository {
     save = async (data: SaveSurveyResultParams): Promise<SurveyResultModel> =>
-      makeFakeSurveyResult();
+      mockSurveyResultModel();
   }
   return new SaveSurveyResultRepositoryStub();
 };
@@ -23,16 +26,24 @@ const makeSut = (): SutTypes => {
   return { sut, saveSurveyResultRepositoryStub };
 };
 
-const makeFakeSurveyResultData = (): SaveSurveyResultParams => ({
+const mockSurveyResultModel = (): SurveyResultModel => ({
+  surveyId: 'survey-id',
+  question: 'question',
+  answers: [
+    {
+      answer: 'answer',
+      image: 'img.jpeg',
+      count: 4,
+      percent: 80,
+    },
+  ],
+});
+
+const mockSurveyResultParams = (): SaveSurveyResultParams => ({
   accountId: 'account-id',
   answer: 'answer',
   date: new Date(),
-  surveyId: 'survey-id',
-});
-
-const makeFakeSurveyResult = (): SurveyResultModel => ({
-  ...makeFakeSurveyResultData(),
-  id: 'valid-id',
+  surveyId: 'surveyId',
 });
 
 describe('DbAddSurvey UseCase', () => {
@@ -48,9 +59,9 @@ describe('DbAddSurvey UseCase', () => {
 
     const saveSpy = jest.spyOn(saveSurveyResultRepositoryStub, 'save');
 
-    await sut.save(makeFakeSurveyResultData());
+    await sut.save(mockSurveyResultParams());
 
-    expect(saveSpy).toHaveBeenCalledWith(makeFakeSurveyResultData());
+    expect(saveSpy).toHaveBeenCalledWith(mockSurveyResultParams());
   });
 
   test('Should trhows if SaveSurveyResultRepository trhows', async () => {
@@ -62,7 +73,7 @@ describe('DbAddSurvey UseCase', () => {
         throw new Error();
       });
 
-    const response = sut.save(makeFakeSurveyResultData());
+    const response = sut.save(mockSurveyResultParams());
 
     await expect(response).rejects.toThrow();
   });
@@ -70,8 +81,8 @@ describe('DbAddSurvey UseCase', () => {
   test('Should return a survey when called with valid data', async () => {
     const { sut } = makeSut();
 
-    const resposne = await sut.save(makeFakeSurveyResultData());
+    const resposne = await sut.save(mockSurveyResultParams());
 
-    expect(resposne).toEqual(makeFakeSurveyResult());
+    expect(resposne).toEqual(mockSurveyResultModel());
   });
 });
