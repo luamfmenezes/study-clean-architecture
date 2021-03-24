@@ -1,5 +1,5 @@
 /* eslint no-underscore-dangle: 0 */
-import { Collection } from 'mongodb';
+import { Collection, ObjectId } from 'mongodb';
 import { AddSurveyParams } from '../../../../domain/usecases/survey/add-survey';
 import MongoHelper from '../helpers/mongo-helper';
 import { SurveyMongoRepository } from './survey-mongo-repository';
@@ -80,7 +80,7 @@ describe('Survey Mongo Repository', () => {
     it('should return undefined when survey does not exist', async () => {
       const sut = makeSut();
 
-      const survey = await sut.loadById('invalid-id');
+      const survey = await sut.loadById(new ObjectId().toHexString());
 
       expect(survey).toBeUndefined();
     });

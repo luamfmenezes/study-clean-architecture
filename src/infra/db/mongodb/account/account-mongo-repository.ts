@@ -34,7 +34,13 @@ export class AccountMongoRepository
   ): Promise<AccountModel | undefined> => {
     const accountCollection = await MongoHelper.getCollection('accounts');
 
-    const account = await accountCollection.findOne({ accessToken, role });
+    const filter = { accessToken };
+
+    if (role) {
+      Object.assign(filter, { role });
+    }
+
+    const account = await accountCollection.findOne(filter);
 
     return account && MongoHelper.map(account);
   };

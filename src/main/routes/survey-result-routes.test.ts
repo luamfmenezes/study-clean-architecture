@@ -75,13 +75,34 @@ describe('Survey Routes', () => {
         .put(`/api/surveys/${res.ops[0]._id}/results`)
         .set('x-access-token', accessToken)
         .send({ answer: 'answer-one' })
-        .expect(403);
+        .expect(200);
     });
   });
 
   describe('GET /surveys/:surveysId/result', () => {
     test('should return 200 on get /surveys/result without access token', async () => {
       await request(app).get('/api/surveys/survey_id/results').expect(403);
+    });
+    test('should return 200 on get /surveys/result with valid params', async () => {
+      const accessToken = await makeAccessToken();
+      const res = await surveyCollection.insertOne({
+        question: 'question',
+        answers: [
+          {
+            answer: 'answer-one',
+            image: 'image.png',
+          },
+          {
+            answer: 'answer-two',
+          },
+        ],
+        date: new Date(),
+      });
+
+      await request(app)
+        .get(`/api/surveys/${res.ops[0]._id}/results`)
+        .set('x-access-token', accessToken)
+        .expect(200);
     });
   });
 });
