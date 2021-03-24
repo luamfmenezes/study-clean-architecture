@@ -48,16 +48,13 @@ describe('Survey Routes', () => {
     await MongoHelper.disconnect();
   });
 
-  describe('POST /surveys/:surveysId/result', () => {
+  describe('PUT /surveys/:surveysId/result', () => {
     test('should return 403 on /surveys/result when not provided with token', async () => {
       await request(app)
         .put('/api/surveys/survey_id/results')
         .send({ answer: 'answer' })
         .expect(403);
     });
-  });
-
-  describe('POST /surveys/:surveysId/result', () => {
     test('should return 200 on /surveys/result with valid params', async () => {
       const accessToken = await makeAccessToken();
       const res = await surveyCollection.insertOne({
@@ -79,6 +76,12 @@ describe('Survey Routes', () => {
         .set('x-access-token', accessToken)
         .send({ answer: 'answer-one' })
         .expect(403);
+    });
+  });
+
+  describe('GET /surveys/:surveysId/result', () => {
+    test('should return 200 on get /surveys/result without access token', async () => {
+      await request(app).get('/api/surveys/survey_id/results').expect(403);
     });
   });
 });
