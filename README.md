@@ -51,6 +51,8 @@ search by "Improviment:" in the code
 10. Organize data/protocols in folders.
 11. Send email about survey-mongo-repository.findbyid - lack MongoHelper.map
 12. Isolate factories of params in tests in domain/test, change make for mock
+13. Adjust files to be coveraged in tests
+14. Change stub to spy, use faker on tests mock
 
 ## Tips
 
