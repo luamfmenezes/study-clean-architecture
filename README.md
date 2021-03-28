@@ -1,113 +1,152 @@
-## Prettier
+<h1 align="center">
+ 👨‍🏫 Survey API
+</h1>
+<p align="center">🚀NodeJS, Typescript, TDD, DDD, Clean architecture and SOLID course</p>
+  
+## Description
 
-yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+API to manage surveys developed in the Manguinho's Udemy course.
 
-change CRLF -> LF in the bottom of visualCode
+Course link: https://www.udemy.com/course/tdd-com-mango/
 
-## Eslint
+Course certificate: https://www.udemy.com/certificate/UC-7e8f6953-3623-464d-aeea-5f240d4df9ed/
 
-airbnb style-guide
 
-## Husky
+## 🎲 Runing development server.
 
-### lint staged
+```bash
 
-Run lint only in the files that are in the stage.
+# install the dependencies:
+$ yarn
+# or 
+$ npm install
 
-## Reminders
+# Run the application in development mode:
+$ yarn dev
+# or
+$ npm run dev
 
-Join commits -> git commit --amend --no-edit
+# Access Rest api on: http://localhost:5050/api
+# Access Swagger documentation on: http://localhost:5050/api-docs
+# Access GraphQl Playground on: http://localhost:5050/graphql
 
-Test other commit -> git checkout "hash"
+```
 
-Revert -> git revert "hash"
 
-git stash ->
 
-git tag -> class: 26
+## 🎲 Runing tests.
 
-## Sut
+```bash
 
-System under test.
+# Integration tests:
+$ yarn test:integration
 
-## Stub -
+# Unit tests:
+$ yarn test:unit
 
-Stubs are used inside unit tests to represent the class that has been tested.
-Type of mock wheren you return a static value from the mock.
+# All tests:
+$ yarn test
+
+
+```
+
+## Principles
+
+* Single Responsibility Principle (SRP)
+* Open Closed Principle (OCP)
+* Liskov Substitution Principle (LSP)
+* Interface Segregation Principle (ISP)
+* Dependency Inversion Principle (DIP)
+* Separation of Concerns (SOC)
+* Don't Repeat Yourself (DRY)
+* You Aren't Gonna Need It (YAGNI)
+* Keep It Simple, Silly (KISS)
+* Composition Over Inheritance
+* Small Commits
+
+## Patterns
+
+* Factory
+* Adapter
+* Composite
+* Decorator
+* Proxy
+* Dependency Injection
+* Abstract Server
+* Composition Root
+* Builder
+* Singleton
+
+## Methodologies and Architectures
+
+* TDD
+* Clean Architecture
+* DDD
+* Conventional Commits
+* GitFlow
+* Modular Design
+* Dependency Diagrams
+* Use Cases
+* Continuous Integration
+* Continuous Delivery
+* Continuous Deployment
+* RestAPI
+* GraphQL
+
+## Tools
+
+* Travis CI
+* Coveralls
+* Supertest
+* @shelf/jest-mongodb
+* Swagger
+* Husky
+* Lint staged
 
 ## Improviments
 
 search by "Improviment:" in the code
 
-1. Create fakers - ex: EmailValidatorFake
-2. Separate factories classes on SignUp.spec.ts
-3. Refactory mongo helper - class .17
-4. change account-repository/account.spec.ts -> .test.ts
-5. import routes
-6. Factories on main/factories are creating one instance any time that is used (we can have emails been configurated again each).
-7. Refactory test using Http-hellpers
-8. Return user from authentication, inside login controller.
-9. Refactory makeValidation factory ./src/main/fatories
-10. Organize data/protocols in folders.
-11. Send email about survey-mongo-repository.findbyid - lack MongoHelper.map
-12. Isolate factories of params in tests in domain/test, change make for mock
-13. Adjust files to be coveraged in tests
-14. Change stub to spy, use faker on tests mock
+* Refactory mongo helper (class 17)
+* Refactory test using Http-hellpers
+* Return user from authentication, inside login controller.
+* Refactory makeValidation factory ./src/main/fatories
+* Change tests from sut folder to ./__test folder.
+* Adjust files to be coveraged in tests
+* Change stub to spy, use faker on tests mock
+
+## Test patterns
+
+* .spec.ts -> unit
+* .test.ts -> integration
+
+## Docker helpful commands
+
+* docker container prune - clean all containers
+* docker run -it container-name sh
+
+## Debug api
+
+* Set sourceMap on tsconfig.
+* Create debug script
+* Create lauch.json on layer debug vscode
 
 ## Tips
 
 search by "Tip:" in the code
 
-save all when move a dependence.
-
-It's recommended to start a feature by the domain
-
-would be acceptable insert the saveSuveryResult inside of the repository survey.
-
-Promise.resolve(value)
-
-## Jest
-
 jest --passWithNoTests --silent --noStackTrace
 
---silent:
-dont show the console.logs.
-dont show information about the tests that are running, only the results.
+--noTrackTrace -> only show expected and returned
 
---noTrackTrace
-only show expected and returned
+--runInBand -> run test sequetial 
 
---runInBand
-run tests sequencial
+Join commits -> git commit --amend --no-edit
 
-use @shelf/jest-mongodb
+Revert commit -> git revert "hash"
 
-pattern:
-.spec.ts -> unit
-.test.ts -> integration
+git tag -> class: 26
 
-supertest
+Sut -> system under test.
 
-## Patterns
-
-1. Factory
-2. Decorator
-3. Composite - make a post about it
-4. Proxy - express addapters
-
-## Docker
-
-docker container prune - clean all containers
-
-docker run -it container-name sh
-
-## Debug api
-
-1. Set sourceMap on tsconfig.
-2. Create debug script
-3. Create lauch.json on layer debug vscode
-
-## CI/CD
-
-1. Travis CI
-2. Coveralls
+Stub -> Type of mock wheren you return a static value from the mock.
