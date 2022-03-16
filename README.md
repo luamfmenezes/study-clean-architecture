@@ -1,16 +1,11 @@
 <h1 align="center">
  👨‍🏫 Survey API
 </h1>
-<p align="center">🚀NodeJS, Typescript, TDD, DDD, Clean architecture and SOLID course</p>
+<p align="center">🚀NodeJS, Typescript, TDD, DDD, Clean architecture and SOLID</p>
   
 ## Description
 
-API to manage surveys developed in the Manguinho's Udemy course.
-
-Course link: https://www.udemy.com/course/tdd-com-mango/
-
-Course certificate: https://www.udemy.com/certificate/UC-7e8f6953-3623-464d-aeea-5f240d4df9ed/
-
+Clean architecture concepts
 
 ## 🎲 Runing development server.
 
